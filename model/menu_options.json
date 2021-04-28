@@ -1,0 +1,22 @@
+{
+        "DMX Address Calculator": {
+            "disc" : "Calculate the address of a fixture, or multiple fixtures using a fixture from your fixture library.",
+            "mode" : "electrican"
+    },
+        "WVA Calculator": {
+            "disc" : "Calculate Watts, Volts, and Amps using the West Virginia formula.",
+            "mode" : "electrican"
+    },
+        "Rosco Gel Data Sheet Viewer": {
+            "disc" : "View the datasheet of any rosco color pulled directly from the Rosco website.",
+            "mode" : "designer"
+    },
+        "Fixture Library": {
+            "disc": "Keep track of, and add fixtures to your personal library. Once added, they can be used for various features and calculators inside the toolkit.",
+            "mode": "both"
+    },
+        "Settings": {
+            "disc": "Modify settings of the Lighting Designer's Toolkit",
+            "mode": "both"
+    }
+}
