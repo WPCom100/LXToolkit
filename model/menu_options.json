@@ -8,7 +8,7 @@
             "mode" : "electrican"
     },
         "Rosco Gel Data Sheet Viewer": {
-            "disc" : "View the datasheet of any rosco color pulled directly from the Rosco website.",
+            "disc" : "View the datasheet of any Rosco color pulled directly from the Rosco website.",
             "mode" : "designer"
     },
         "Fixture Library": {
