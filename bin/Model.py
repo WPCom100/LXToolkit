@@ -38,32 +38,43 @@ class Model:
 
         return result
 
+    # TODO update settings to use new model set function
     # Update a {key, value} pair in the SETTINGS model
     def updateSettings(self, key, value):
         self.__model['SETTINGS'][key] = value
         self.__updateModel(self.__model)
 
-    # def set(self, value, *paths: str):
+    # TODO Check for none values in debug
+    def set(self, value, *paths: str):
 
-    #     # The model with new information for updateing, the working model
-    #     workingModel = {}
+        # Set root path
+        rootPath = paths[0]
 
-    #     # Set root path
-    #     rootPath = paths[0]
-    #     workingModel[rootPath] = {}
+        # The model with new information for updateing, the working model
+        workingModel = self.get(rootPath)
 
-    #     # Set sub paths, ignoring the root path
-    #     subPaths = tuple(path for path in paths
-    #                        if not path == rootPath)
-        
-    #     strPaths = f"[\'{rootPath}\']"
-    #     for subPath in subPaths:
-    #         strSubPaths = strSubPaths + f"[\'{subPath}\']"
+        # If subpaths were passed, set sub paths ignoring the root path
+        if not paths == None:
+            subPaths = tuple(path for path in paths
+                            if not path == rootPath)
 
-    #     eval(f"workingModel{strSubPaths} = {}")
+            # Position of final subpath, also known as the key of the updated value
+            lastSubPath = len(subPaths) - 1
+            
+            # For each subpath provided, traverse the model accordingly, excluding the final key value
+            for subPath in subPaths:
+                if not subPath == subPaths[lastSubPath]:
+                    workingModel = workingModel[subPath]
+            
+            # Set the value requested
+            workingModel[subPaths[lastSubPath]] = value
+            
+        # Otherwise set the entire model
+        else:
+            self.__model[rootPath] = value
 
-
-    #     self.__updateModel(self.__model)
+        # Update JSON files with updated model values
+        self.__updateModel(self.__model)
 
 
     # Parse and store provided json file in model
@@ -77,5 +88,5 @@ class Model:
 
         for path in self.__PATHS:
             with open(self.__PATHS[path], 'w') as file:
-                return json.dump(model[path], file)
+                json.dump(model[path], file)
 
