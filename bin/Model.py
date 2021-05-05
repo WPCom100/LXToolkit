@@ -5,7 +5,8 @@ class Model:
     __PATHS = {
         'SETTINGS': "settings.json",
         'MENU_OPTIONS': "model/menu_options.json",
-        'FIXTURE_LIBRARY': "model/fixture_library.json"
+        'FIXTURE_LIBRARY': "model/fixture_library.json",
+        'SUPPORTED_GELS' : "model/supported_gel_types.json"
     }
     
     def __init__(self):
@@ -81,6 +82,8 @@ class Model:
 
     # Updates provided json file with the model provided
     def __updateModel(self, model):
+
+        #TODO Update only model that is changed
 
         for path in self.__PATHS:
             with open(self.__PATHS[path], 'w') as file:

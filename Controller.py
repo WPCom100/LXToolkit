@@ -34,6 +34,7 @@ class Controller:
 
     def dmxCalculatorEventHandler(self, event, data):
         
+        # TODO DMX Calc Functionality
         if event == None:
             self.currentWindow.close()
         if event == "Close":
@@ -77,11 +78,37 @@ class Controller:
 
     def roscoViewerEventHandler(self, event, data):
         
+        # Exit on user exit
         if event == None:
             self.currentWindow.close()
         if event == "Close":
             self.currentWindow.close()
             self.openMainMenu()
+        
+        # Load image per input upon button press
+        if event == 'Lookup':
+            fileName = f"{data['gel']}.jpg"
+            bio = io.BytesIO()
+
+            # Check if file is already downloaded
+            if not os.path.exists(fileName):
+            
+                # If image downloads successfuly
+                if downloadImage(f"https://us.rosco.com/sites/default/files/content/filters//{data['gel_type'][0]}/{data['gel']}.jpg"):
+                    
+                    imageToMemory(fileName, 600, 600, bio)
+                    # Update image view with image downloaded
+                    self.currentWindow.window['img'].update(data=bio.getvalue())
+
+                # Error if not success
+                else:
+                    self.view.gui.popup_error("Please try another gel, that one didn't work!", title='Error')
+
+            else:
+
+                imageToMemory(fileName, 600, 600, bio)
+                # Update image view with image downloaded
+                self.currentWindow.window['img'].update(data=bio.getvalue())
 
     def fixtureLibraryEventHandler(self, event, data):
 
@@ -127,7 +154,8 @@ class Controller:
 
         # Save only
         if event == "Save":
-            saveFixture()
+            #saveFixture()
+            print(data)
 
         
         # User selected a fixture from the list
@@ -206,6 +234,15 @@ class Controller:
         fixtureData = self.model.get('FIXTURE_LIBRARY').keys()
         self.currentWindow = self.view.FixtureLibrary(self, fixtureData)
         self.currentWindow.open()
+
+    def openRoscoGelDataSheetViewer(self):
+
+        # Opens the rosco data sheet veiwer window
+        # Passes in supported gel types
+        supportedGels = self.model.get('SUPPORTED_GELS')
+        self.currentWindow = self.view.RoscoGelDataSheetViewer(self, supportedGels)
+        self.currentWindow.open()
+
 
 # Start the program
 if __name__ == '__main__':

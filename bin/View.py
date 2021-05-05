@@ -121,8 +121,41 @@ class RoscoGelDataSheetViewer(Window):
     def __init__(self, controller, data):
         self.title = "Rosco Gel Data Sheet Viewer"
         self.setTheme(UI_THEME)
-        self.layout = [ [gui.Text(self.title)],
-                        [gui.Button("Close")] ]
+
+        # ------------- Create the Layout -------------
+        #
+        #                    HEADER
+        #       --------------------------------
+        #                     BODY           
+        #
+        #                    FOOTER
+        #
+
+        header = [
+            [gui.Text(self.title, font=TITLE_FONT, pad=(240, 2), justification='center')],
+            [gui.Text('_' * 100, pad=(105, 0), justification='center')]
+        ]
+
+        body = [
+            [gui.Column([[gui.Listbox(list(data.keys()), default_values=('cinelux'), size=(20, 5), select_mode=gui.LISTBOX_SELECT_MODE_SINGLE, key="gel_type")]],
+             pad=(25, 25)),
+            gui.Column([[gui.Text("Gel number: "), gui.Input(size=(10, 1), pad=(10, 10), key='gel')],
+            [gui.Image(key='img', size=(25, 1))]],
+             pad=(25, 25))]
+        ]
+            
+
+        footer = gui.Column([[gui.Button("Close"), gui.Button('Lookup')]], pad=(400, 5))
+
+        self.layout = [
+            [header],
+            [body],
+            [footer]
+        ]
+        
+        #
+        # ------------------------------------------------
+
         super().__init__(controller, data)
         
     def _inLoop(self, event):
