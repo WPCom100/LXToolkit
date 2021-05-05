@@ -24,27 +24,23 @@ class Model:
         # Set root path
         rootPath = paths[0]
 
-        # Set sub paths, ignoring the root path
-        subPaths = tuple(path for path in paths
-                           if not path == rootPath)
+        # Set sub paths, ignoring the root path if paths were passed in
+        if len(paths) > 1:
+            subPaths = tuple(path for path in paths
+                            if not path == rootPath)
+        else:
+            subPaths = None
 
         # Get requested json file / root path
         result = self.__model[rootPath]
 
         # If a subpath was provided, move down the tree to the requested location
-        if not all(subPaths):
+        if not subPaths is None:
             for subPath in subPaths:
                 result = result[subPath]
 
         return result
 
-    # TODO update settings to use new model set function
-    # Update a {key, value} pair in the SETTINGS model
-    def updateSettings(self, key, value):
-        self.__model['SETTINGS'][key] = value
-        self.__updateModel(self.__model)
-
-    # TODO Check for none values in debug
     def set(self, value, *paths: str):
 
         # Set root path
@@ -54,7 +50,7 @@ class Model:
         workingModel = self.get(rootPath)
 
         # If subpaths were passed, set sub paths ignoring the root path
-        if not paths == None:
+        if len(paths) > 1:
             subPaths = tuple(path for path in paths
                             if not path == rootPath)
 

@@ -77,8 +77,7 @@ class WVACalculator(Window):
         #
         #                    HEADER
         #       --------------------------------
-        #                     BODY
-        #            C1   C2   C3   C4   C5               
+        #                     BODY           
         #
         #                    FOOTER
         #
@@ -94,8 +93,8 @@ class WVACalculator(Window):
                 gui.Column([[gui.Text('=', font=TITLE_FONT)]], pad=(25, 0)),
                 gui.Column([[gui.Text('Volts: ', font=HEADER_TWO_TEXT), gui.Input(size=(13, 1), key='v')]], pad=(25, 20)),
                 gui.Column([[gui.Text('X', font=TITLE_FONT)]], pad=(25, 0)),
-                gui.Column([[gui.Text('Amps: ', font=HEADER_TWO_TEXT), gui.Input(size=(13, 1), key='a')]], pad=(25, 20))
-            ]], pad=(10, 35))],
+                gui.Column([[gui.Text('Amps: ', font=HEADER_TWO_TEXT), gui.Input(size=(13, 1), key='a')]], pad=(25, 20))]],
+                pad=(10, 35))],
             [gui.Column([[gui.Button('Calculate')]], pad=(410, 5))]
         ]
             
@@ -139,10 +138,59 @@ class FixtureLibrary(Window):
 
         # Window Theme
         self.setTheme(UI_THEME)
+        
+        # TODO Add Notes to layout
 
-        # Window Layout
-        self.layout = [ [gui.Text(self.title)],
-                        [gui.Button("Save and Close")]]
+        header = [
+            [gui.Text(self.title, font=TITLE_FONT, pad=(335, 2), justification='center')],
+            [gui.Text('_' * 100, pad=(105, 0), justification='center')]
+        ]
+
+        # List of viewable fixtures
+        fixtures = list()
+        for key in data:
+            fixtures.append(key)
+
+        # Body Data Vertical Spacing
+        bodyVSpace = 5
+
+        body = [[
+            gui.Column([[
+                gui.Listbox(fixtures, size=(50, 20), select_mode=gui.LISTBOX_SELECT_MODE_SINGLE, key="selected_fixture", enable_events=True)]],
+                  pad=(10, 35)),
+            gui.Column([
+                [gui.Column([[gui.Text('Name: ', font=NORMAL_TEXT), gui.Input(size=(50, 1), key='name')]],
+                  pad=(35, bodyVSpace))],
+                [gui.Column([[gui.Text('Lamp Type: ', font=NORMAL_TEXT), gui.Input(size=(20, 1), key='lamp_type'),
+                    gui.Text('Fixture Type: ', font=NORMAL_TEXT), gui.Input(size=(20, 1), key='fixture_type')]],
+                  pad=(0, bodyVSpace))],
+                [gui.Column([[
+                    gui.Text('Degree Min: ', font=NORMAL_TEXT), gui.Input(size=(13, 1), key='degree_min'),
+                    gui.Text('Degree Max: ', font=NORMAL_TEXT), gui.Input(size=(13, 1), key='degree_max')]],
+                  pad=(47, bodyVSpace))],
+                [gui.Column([[
+                    gui.Text('Wattage: ', font=NORMAL_TEXT), gui.Input(size=(10, 1), key='wattage'),
+                    gui.Text('Amperage: ', font=NORMAL_TEXT), gui.Input(size=(10, 1), key='amperage'),
+                    gui.Text('Voltage: ', font=NORMAL_TEXT), gui.Input(size=(10, 1), key='volts')]],
+                  pad=(10, bodyVSpace))],
+                [gui.Column([[
+                    gui.Text('3-Pin: ', font=NORMAL_TEXT), gui.Listbox(["True", "False"], size=(6, 3), key='3-pin-data', select_mode=gui.LISTBOX_SELECT_MODE_SINGLE),
+                    gui.Text('5-Pin: ', font=NORMAL_TEXT), gui.Listbox(["True", "False"], size=(6, 3), key='5-pin-data', select_mode=gui.LISTBOX_SELECT_MODE_SINGLE)]],
+                  pad=(110, bodyVSpace))],
+                [gui.Column([[
+                    gui.Text('Addresses: ', font=NORMAL_TEXT), gui.Input(size=(13, 1), key='addresses')]],
+                  pad=(165, bodyVSpace))]
+            ], visible=False, key='dataColumn', pad=(0, 80))
+        ]]
+            
+
+        footer = gui.Column([[gui.Button("Save and Close"), gui.Button("Save")]], pad=(420, 5))
+
+        self.layout = [
+            [header],
+            [body],
+            [footer]
+        ]
         
         super().__init__(controller, data)
         

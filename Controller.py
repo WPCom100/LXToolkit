@@ -42,11 +42,14 @@ class Controller:
 
     def wvaCalculatorEventHandler(self, event, data):
         
+        # Exit on user exit
         if event == None:
             self.currentWindow.close()
         if event == "Close":
             self.currentWindow.close()
             self.openMainMenu()
+        
+        # Calculate Button
         if event == "Calculate":
 
             # If at least one field is blank
@@ -81,21 +84,96 @@ class Controller:
             self.openMainMenu()
 
     def fixtureLibraryEventHandler(self, event, data):
+
+        # Model key
+        mKey = 'FIXTURE_LIBRARY'
+
+        # Saves fixture data regardless of data being updated
+        def saveFixture():
+            for key in data.keys():
+
+                # Extract selected fixture from data
+                if key == 'selected_fixture':
+                    selectedFixture = data['selected_fixture'][0]
+
+                # TODO Proccess Name Fixture Name Changes
+                elif key == 'name':
+                    None
+
+                # Update model with data to save
+                else:
+                    # Handle t/f Listboxes
+                    if isinstance(data[key], list):
+                        if data[key][0] == 'True':
+                            self.model.set(True, mKey, selectedFixture, key)
+                        else:
+                            self.model.set(False, mKey, selectedFixture, key)
+                    else:
+                        self.model.set(data[key], mKey, selectedFixture, key)
+
         
+        # Fixture model
+        fixtureData = self.model.get(mKey)
+        
+        # Exit on user exit, without saving
         if event == None:
             self.currentWindow.close()
+        
+        # Save and return to the menu
         if event == "Save and Close":
             self.currentWindow.close()
+            saveFixture()
             self.openMainMenu()
+
+        # Save only
+        if event == "Save":
+            saveFixture()
+
+        
+        # User selected a fixture from the list
+        if event == "selected_fixture":
+            selectedFixture = data['selected_fixture'][0]
+
+            # If the dataColumn is hidden, unhide it
+            if not self.currentWindow.window['dataColumn'].visible:
+                self.currentWindow.window['dataColumn'].update(visible=True)
+
+            # Set data in the dataColumn
+            self.currentWindow.window['name'].update(selectedFixture)
+            self.currentWindow.window['lamp_type'].update(fixtureData[selectedFixture]['lamp_type'])
+            self.currentWindow.window['fixture_type'].update(fixtureData[selectedFixture]['fixture_type'])
+            self.currentWindow.window['degree_min'].update(fixtureData[selectedFixture]['degree_min'])
+            self.currentWindow.window['degree_max'].update(fixtureData[selectedFixture]['degree_max'])
+            self.currentWindow.window['wattage'].update(fixtureData[selectedFixture]['wattage'])
+            self.currentWindow.window['volts'].update(fixtureData[selectedFixture]['volts'])
+            self.currentWindow.window['amperage'].update(fixtureData[selectedFixture]['amperage'])
+            self.currentWindow.window['addresses'].update(fixtureData[selectedFixture]['addresses'])
+            
+            # Handle bool values in data set
+            if fixtureData[selectedFixture]['3-pin-data']:
+                self.currentWindow.window['3-pin-data'].update(set_to_index=0)
+            else:
+                self.currentWindow.window['3-pin-data'].update(set_to_index=1)
+
+            if fixtureData[selectedFixture]['5-pin-data']:
+                self.currentWindow.window['5-pin-data'].update(set_to_index=0)
+            else:
+                self.currentWindow.window['5-pin-data'].update(set_to_index=1)
 
 
     def settingsEventHandler(self, event, data):
+
+        # Model key
+        mKey = 'SETTINGS'
         
+        # Exit on user exit, without saving
         if event == None:
             self.currentWindow.close()
+
+        # Save and return to the menu
         if event == "Save and Close":
             self.currentWindow.close()
-            self.model.updateSettings('mode', data['mode'])
+            self.model.set(data['mode'], mKey, 'mode')
             self.openMainMenu()
 
     # ------------------------------------------------
@@ -119,6 +197,14 @@ class Controller:
 
         # Opens the WVA Calculator window
         self.currentWindow = self.view.WVACalculator(self, None)
+        self.currentWindow.open()
+
+    def openFixtureLibrary(self):
+
+        # Opens the fixture library window with the fixture library from the model
+        # Only passes in the fixture names for list creation
+        fixtureData = self.model.get('FIXTURE_LIBRARY').keys()
+        self.currentWindow = self.view.FixtureLibrary(self, fixtureData)
         self.currentWindow.open()
 
 # Start the program

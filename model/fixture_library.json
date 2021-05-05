@@ -1,87 +1,86 @@
 {
-    "Source 4 19deg" : {
-        "fixture_type": "Incandescent",
-        "lamp_type" : "HPL575",
-        "degree_min" : 19,
-        "degree_max": 19,
-        "addresses" : 1,
-        "wattage" : 575,
-        "amperage" : 4.792,
-        "volts" : 120,
-        "3-pin-data" : false,
-        "5-pin-data" : false
-    },
-    "Source 4 26deg": {
-        "fixture_type": "Incandescent",
-        "lamp_type": "HPL575",
-        "degree_min": 26,
-        "degree_max": 26,
-        "addresses": 1,
-        "wattage": 575,
-        "amperage": 4.792,
-        "volts": 120,
-        "3-pin-data": false,
-        "5-pin-data": false
-    },
-    "Source 4 36deg": {
-        "fixture_type": "Incandescent",
-        "lamp_type": "HPL575",
-        "degree_min": 36,
-        "degree_max": 36,
-        "addresses": 1,
-        "wattage": 575,
-        "amperage": 4.792,
-        "volts": 120,
-        "3-pin-data": false,
-        "5-pin-data": false
-    },
-    "Source 4 50deg": {
-        "fixture_type": "Incandescent",
-        "lamp_type": "HPL575",
-        "degree_min": 50,
-        "degree_max": 50,
-        "addresses": 1,
-        "wattage": 575,
-        "amperage": 4.79,
-        "volts": 120,
-        "3-pin-data": false,
-        "5-pin-data": false
-    },
-    "Chauvet Rouge R2 Wash": {
-        "fixture_type": "Moving Light",
-        "lamp_type": "RGBW LED",
-        "degree_min": 12,
-        "degree_max": 49,
-        "addresses": 56,
-        "wattage": 339,
-        "amperage": 2.95,
-        "volts": 120,
-        "3-pin-data": true,
-        "5-pin-data": true
-    },
-    "ETC Color Source Cyc": {
-        "fixture_type": "Cyc Light",
-        "lamp_type": "RGBIL LED",
-        "degree_min": 0,
-        "degree_max": 0,
-        "addresses": 7,
-        "wattage": 133,
-        "amperage": 1.11,
-        "volts": 120,
-        "3-pin-data": false,
-        "5-pin-data": true
-    },
-    "MAC Viper Profile": {
-        "fixture_type": "Moving Light",
-        "lamp_type": "LOK-IT 1000",
-        "degree_min": 10,
-        "degree_max": 44,
-        "addresses": 34,
-        "wattage": 1225,
-        "amperage": 10.3,
-        "volts": 120,
-        "3-pin-data": true,
-        "5-pin-data": false
-    }
-
+	"Source 4 19deg": {
+		"fixture_type": "Incandescent",
+		"lamp_type": "HPL575",
+		"degree_min": "19",
+		"degree_max": "19",
+		"addresses": "1",
+		"wattage": "575",
+		"amperage": "4.792",
+		"volts": "120",
+		"3-pin-data": true,
+		"5-pin-data": false
+	},
+	"Source 4 26deg": {
+		"fixture_type": "Incandescent",
+		"lamp_type": "HPL575",
+		"degree_min": "26",
+		"degree_max": "26",
+		"addresses": "1",
+		"wattage": "575",
+		"amperage": "4.792",
+		"volts": "120",
+		"3-pin-data": false,
+		"5-pin-data": false
+	},
+	"Source 4 36deg": {
+		"fixture_type": "Incandescent",
+		"lamp_type": "HPL575",
+		"degree_min": "36",
+		"degree_max": "36",
+		"addresses": "1",
+		"wattage": "575",
+		"amperage": "4.792",
+		"volts": "120",
+		"3-pin-data": false,
+		"5-pin-data": false
+	},
+	"Source 4 50deg": {
+		"fixture_type": "Incandescent",
+		"lamp_type": "HPL575",
+		"degree_min": "50",
+		"degree_max": "50",
+		"addresses": "1",
+		"wattage": "575",
+		"amperage": "4.79",
+		"volts": "120",
+		"3-pin-data": false,
+		"5-pin-data": false
+	},
+	"Chauvet Rouge R2 Wash": {
+		"fixture_type": "Moving Light",
+		"lamp_type": "RGBW LED",
+		"degree_min": "12",
+		"degree_max": "49",
+		"addresses": "56",
+		"wattage": "339",
+		"amperage": "2.95",
+		"volts": "120",
+		"3-pin-data": true,
+		"5-pin-data": true
+	},
+	"ETC Color Source Cyc": {
+		"fixture_type": "Cyc Light",
+		"lamp_type": "RGBIL LED",
+		"degree_min": "0",
+		"degree_max": "0",
+		"addresses": "7",
+		"wattage": "133",
+		"amperage": "1.11",
+		"volts": "120",
+		"3-pin-data": false,
+		"5-pin-data": true
+	},
+	"MAC Viper Profile": {
+		"fixture_type": "Moving Light",
+		"lamp_type": "LOK-IT 1000",
+		"degree_min": "10",
+		"degree_max": "44",
+		"addresses": "34",
+		"wattage": "1225",
+		"amperage": "10.3",
+		"volts": "120",
+		"3-pin-data": true,
+		"5-pin-data": false
+	}
 }
