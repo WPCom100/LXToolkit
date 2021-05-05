@@ -154,9 +154,7 @@ class Controller:
 
         # Save only
         if event == "Save":
-            #saveFixture()
-            print(data)
-
+            saveFixture()
         
         # User selected a fixture from the list
         if event == "selected_fixture":
