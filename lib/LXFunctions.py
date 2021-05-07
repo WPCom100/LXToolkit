@@ -1,4 +1,4 @@
-def powerCalculator(w='', v='', a=''):
+def powerCalculator(w: str='', v: str='', a: str=''):
 
     result = 0.0
     solvedFor = ''
@@ -14,6 +14,17 @@ def powerCalculator(w='', v='', a=''):
         solvedFor = 'a'
 
     return result, solvedFor
+
+def addressCalculator(addresses: int, numberFixtures: int, startingAddress=1):
+    
+    result: list = [f"1: {startingAddress}"]
+
+    for i in range(1, numberFixtures):
+
+        nextFixture = f"{i + 1}: {i * addresses + startingAddress}"
+        result.append(nextFixture)
+
+    return result
 
 
 import lib.requests
