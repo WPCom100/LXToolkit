@@ -1,6 +1,6 @@
 import bin.View as View
 from bin.Model import Model
-from lib.LXMath import *
+from lib.LXFunctions import *
 
 class Controller:
 
@@ -11,7 +11,8 @@ class Controller:
     def core(self):
         
         # Open main menu by default
-        self.openMainMenu()
+        # self.openMainMenu()
+        self.openDMXAddressCalculator()
 
     # --------------- Event Handlers ---------------
     #
@@ -34,6 +35,7 @@ class Controller:
 
     def dmxCalculatorEventHandler(self, event, data):
         
+        # Exit on user exit
         # TODO DMX Calc Functionality
         if event == None:
             self.currentWindow.close()
@@ -112,6 +114,7 @@ class Controller:
 
     def fixtureLibraryEventHandler(self, event, data):
 
+        # TODO Add new fixture functionality
         # Model key
         mKey = 'FIXTURE_LIBRARY'
 
@@ -165,6 +168,7 @@ class Controller:
                 self.currentWindow.window['dataColumn'].update(visible=True)
 
             # Set data in the dataColumn
+            # TODO Add name update functionality
             self.currentWindow.window['name'].update(selectedFixture)
             self.currentWindow.window['lamp_type'].update(fixtureData[selectedFixture]['lamp_type'])
             self.currentWindow.window['fixture_type'].update(fixtureData[selectedFixture]['fixture_type'])
@@ -202,13 +206,54 @@ class Controller:
             self.model.set(data['mode'], mKey, 'mode')
             self.openMainMenu()
 
+    def dmxCalculatorEventHandler(self, event, data):
+
+         # Exit on user exit, without saving
+        if event == None:
+            self.currentWindow.close()
+        if event == "Close":
+            self.currentWindow.close()
+            self.openMainMenu()
+        
+        # Returns a popup with calculation completed
+        if event == "Calculate":
+            
+            # Check if fields were filled out correctly
+            if data['numberFixtures'] == '':
+                self.view.gui.popup_ok("You must enter the number of fixtures you would to calculate for.")
+
+            # Check if a fixture was not selected from the listbox
+            elif data['selected_fixture'] == []:
+                self.view.gui.popup_ok("You must select the fixture you would to calculate for.")
+
+            else:
+                # Model key
+                mKey = 'FIXTURE_LIBRARY'
+
+                # Checking if a starting address was passed
+                if not data['startingAddress'] == '':
+                    startingAddress = int(data['startingAddress'])
+                else:
+                    startingAddress = None
+
+                # Get the number of addresses a fixture uses from the model
+                fixtureAddresses = int(self.model.get(mKey, data['selected_fixture'][0], 'addresses'))
+
+                # Handle optional starting address
+                if startingAddress == None:
+                    dmxAddresses = addressCalculator(int(fixtureAddresses), int(data['numberFixtures']))
+                else:
+                    dmxAddresses = addressCalculator(fixtureAddresses, int(data['numberFixtures']), startingAddress)
+
+                # Display the result in an OK popup window
+                self.view.gui.popup_ok(str(dmxAddresses), title='Result')
+
     # ------------------------------------------------
 
     def openMainMenu(self):
 
-        menuOptions = self.model.get('MENU_OPTIONS')
-        # TODO Add menu options filter
         # Open the window and pass in menu options from model
+        menuOptions = self.model.get('MENU_OPTIONS')
         self.currentWindow = self.view.MainMenu(self, menuOptions)
         self.currentWindow.open()
 
@@ -240,7 +285,15 @@ class Controller:
         supportedGels = self.model.get('SUPPORTED_GELS')
         self.currentWindow = self.view.RoscoGelDataSheetViewer(self, supportedGels)
         self.currentWindow.open()
+        
+    def openDMXAddressCalculator(self):
 
+        # TODO Check if passing keys() already returns a list, and if it needs to be redefined in the view
+        # Opens the DMX ddress Calculator window
+        # Only passes in the fixture names for list creation
+        fixtureData = self.model.get('FIXTURE_LIBRARY').keys()
+        self.currentWindow = self.view.DMXAddressCalculator(self, fixtureData)
+        self.currentWindow.open()
 
 # Start the program
 if __name__ == '__main__':

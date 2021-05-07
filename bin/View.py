@@ -30,6 +30,8 @@ class MainMenu(Window):
             [gui.Text('_' * 100, pad=(100, 0))]
         ]
 
+        # TODO Sort by which option is selected in settings
+
         body = []
         for option in data:
             body.append([
@@ -59,8 +61,50 @@ class DMXAddressCalculator(Window):
     def __init__(self, controller, data):
         self.title = "DMX Address Calculator"
         self.setTheme(UI_THEME)
-        self.layout = [ [gui.Text(self.title)],
-                        [gui.Button("Close")] ]
+
+        # List of viewable fixtures
+        fixtures = list()
+        for key in data:
+            fixtures.append(key)
+
+        # ------------- Create the Layout -------------
+        #
+        #                    HEADER
+        #       --------------------------------
+        #                     BODY           
+        #
+        #                    FOOTER
+        #
+
+        header = [
+            [gui.Text(self.title, font=TITLE_FONT, pad=(310, 2), justification='center')],
+            [gui.Text('_' * 100, pad=(105, 0), justification='center')]
+        ]
+
+        # TODO Selected fixure address display
+        body = [
+            [gui.Column([[
+                gui.Column([[
+                    gui.Listbox(fixtures, size=(50, 20), select_mode=gui.LISTBOX_SELECT_MODE_SINGLE, key="selected_fixture")]],
+                    pad=(10, 35)),
+                gui.Column([
+                    [gui.Text('Number of Fixtures: ', font=HEADER_TWO_TEXT), gui.Input(size=(13, 1), key='numberFixtures')],
+                    [gui.Text('Starting Address: ', font=HEADER_TWO_TEXT), gui.Input(size=(13, 1), key='startingAddress', pad=(27, 5))]],
+                    pad=(70, 35))]])]
+        ]
+
+        # TODO Fix Button Centering
+        footer = gui.Column([[gui.Button('Calculate', pad=(0, 20))], [gui.Button("Close")]], pad=(420, 5))
+
+        self.layout = [
+            [header],
+            [body],
+            [footer]
+        ]
+        
+        #
+        # ------------------------------------------------
+
         super().__init__(controller, data)
         
     def _inLoop(self, event):
@@ -98,7 +142,6 @@ class WVACalculator(Window):
             [gui.Column([[gui.Button('Calculate')]], pad=(410, 5))]
         ]
             
-
         footer = gui.Column([[gui.Button("Close")]], pad=(420, 5))
 
         self.layout = [
@@ -144,7 +187,6 @@ class RoscoGelDataSheetViewer(Window):
              pad=(25, 25))]
         ]
             
-
         footer = gui.Column([[gui.Button("Close"), gui.Button('Lookup')]], pad=(400, 5))
 
         self.layout = [
@@ -216,7 +258,6 @@ class FixtureLibrary(Window):
             ], visible=False, key='dataColumn', pad=(0, 80))
         ]]
             
-
         footer = gui.Column([[gui.Button("Save and Close"), gui.Button("Save")]], pad=(420, 5))
 
         self.layout = [
@@ -255,13 +296,12 @@ class Settings(Window):
 
         body = gui.Column(
                 [[gui.Text('Toolkit Mode: ')], [gui.Combo(['Designer', 'Electrican', 'Both'],
-                                                    default_value=data['mode'],
-                                                    key='mode')]],
+                                                   default_value=data['mode'],
+                                                   key='mode')]],
                 pad=(400, 25))
 
         footer = [gui.Button("Save and Close", pad=(400, 25))]
 
-        
         self.layout = [
             [header],
             [body],
