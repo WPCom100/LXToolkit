@@ -11,8 +11,7 @@ class Controller:
     def core(self):
         
         # Open main menu by default
-        # self.openMainMenu()
-        self.openDMXAddressCalculator()
+        self.openMainMenu()
 
     # --------------- Event Handlers ---------------
     #
