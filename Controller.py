@@ -125,10 +125,19 @@ class Controller:
                 if key == 'selected_fixture':
                     selectedFixture = data['selected_fixture'][0]
 
-                # TODO Proccess Name Fixture Name Changes
                 elif key == 'name':
-                    None
+                    # If the name was changed, update it
+                    if not data[key] == data['selected_fixture'][0]:
+                        self.model.rename(data[key], mKey, selectedFixture)
 
+                        # Get updated model and determin the fixture to select upon update
+                        selectedFixture = data['name']
+                        fixtureData = self.model.get('FIXTURE_LIBRARY').keys()
+                        updatedIndex = len(fixtureData) - 1
+
+                        # Refresh fixture list 
+                        self.currentWindow.window['selected_fixture'].update(values=fixtureData, set_to_index=updatedIndex)
+                        
                 # Update model with data to save
                 else:
                     # Handle t/f Listboxes

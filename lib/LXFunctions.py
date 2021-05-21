@@ -1,3 +1,5 @@
+# TODO Add more documentation over these functions
+
 def powerCalculator(w: str='', v: str='', a: str=''):
 
     result = 0.0
