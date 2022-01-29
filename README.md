@@ -1,5 +1,5 @@
 # LXToolkit
-A Lighting Designer/Electrican's Toolkit GUI and database
+A Lighting Designer/Electrican's Toolkit GUI and database in development.
 
 This software began and was initially created as a project for my Software Engineering class at Oklahoma City University.
 
